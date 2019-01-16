@@ -1,0 +1,19 @@
+version: '3.3'
+
+services:
+  mongo:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    command: --smallfiles
+  member-service:
+    image: spring-boot-jpa-image
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    depends_on:
+      - mongo
+    ports:
+      - 8080:8080
+    volumes:
+      - /data/spring-boot-app
