@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,7 +38,7 @@ public class MemberController {
         return new ResponseEntity<>(members, HttpStatus.OK);
     }
 
-    @GetMapping("id")
+    @GetMapping(params = "id", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_ATOM_XML_VALUE }, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_ATOM_XML_VALUE })
     public ResponseEntity<Member> getMember(@PathVariable("id") String id) throws IOException {
         logger.info("Fetching Member with id " + id);
 
@@ -50,14 +51,14 @@ public class MemberController {
         return new ResponseEntity<>(member, HttpStatus.OK);
     }
 
-    @PostMapping
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_ATOM_XML_VALUE }, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_ATOM_XML_VALUE })
     public ResponseEntity<Member> createMember(@RequestBody Member member) {
         logger.info("Creating Member " + member);
         Member savedMember = memberService.save(member);
         return new ResponseEntity<>(savedMember, HttpStatus.OK);
     }
 
-    @PutMapping
+    @PutMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_ATOM_XML_VALUE }, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_ATOM_XML_VALUE })
     public ResponseEntity<Void> updateMember(@RequestBody Member member) throws IOException {
         logger.info("Updating Member " + member.getId());
 
@@ -71,7 +72,7 @@ public class MemberController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping("id")
+    @DeleteMapping(params = "id", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_ATOM_XML_VALUE }, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_ATOM_XML_VALUE })
     public ResponseEntity<Void> deleteMember(@PathVariable("id") String id) throws IOException {
         logger.info("Deleting Member with id " + id);
 
@@ -85,3 +86,4 @@ public class MemberController {
     }
 
 }
+
